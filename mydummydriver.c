@@ -48,7 +48,7 @@ static int __init dummy_init(void) {
     }
     
     major = MAJOR(dev);
-    printk(KERN_INFO "Device registered: major %d, minor %d\n", major, DEVICE_FIRST);
+    printk(KERN_INFO "Device region registered: major %d, minor %d\n", major, DEVICE_FIRST);
 
 //Инициализация cdev
     cdev_init(&my_dummy_device, &dummy_fops);
@@ -57,7 +57,7 @@ static int __init dummy_init(void) {
 //Добавление устройства в систему
     result = cdev_add(&my_dummy_device, dev, DEVICE_COUNT);
     if (result < 0) {
-        printk(KERN_ERR "Cannot add character device: %d\n", result);
+        printk(KERN_ERR "Cannot add my_dummy_device: %d\n", result);
         goto err_cdev_add;
     }
 
@@ -70,7 +70,7 @@ static int __init dummy_init(void) {
     
     if (IS_ERR(dummy_class)) {
         result = PTR_ERR(dummy_class);
-        printk(KERN_ERR "Cannot create device class: %d\n", result);
+        printk(KERN_ERR "Cannot create my_dummy_device class: %d\n", result);
         goto err_class;
     }
 
@@ -82,7 +82,7 @@ static int __init dummy_init(void) {
         goto err_device;
     }
 
-    printk(KERN_INFO "Device created: /dev/%s\n", DEVICE_NAME);
+    printk(KERN_INFO "my_dummy_device file created: /dev/%s\n", DEVICE_NAME);
     return EOK;
     
     
@@ -116,28 +116,28 @@ static void __exit dummy_exit(void) {
 //Освобождение номера устройства
     unregister_chrdev_region(dev, DEVICE_COUNT);
     
-    printk(KERN_INFO "Device Destroyed!\n");
+    printk(KERN_INFO "my_dummy_device destroyed!\n");
 }
 
 static int dummy_open(struct inode *n, struct file *f) {
     if (device_open) {
-        printk(KERN_WARNING "Device is busy\n");
+        printk(KERN_WARNING "my_dummy_device is busy\n");
         return -EBUSY;
     }
     
     device_open++;
-    printk(KERN_INFO "Device opened\n");
+    printk(KERN_INFO "my_dummy_device opened\n");
     return EOK;
 }
 
 static int dummy_release(struct inode *n, struct file *f) {
     device_open--;
-    printk(KERN_INFO "Device closed\n");
+    printk(KERN_INFO "my_dummy_device closed\n");
     return EOK;
 }
 
 static ssize_t dummy_read(struct file * fp, char __user * buf, size_t count, loff_t * ppos) {
-    const char * reply = "The same answer again and again.\n";
+    const char * reply = "Hello World!\n";
     size_t len = strlen(reply);
     size_t available = len - *ppos;
 
