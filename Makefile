@@ -8,7 +8,7 @@ KDIR = /lib/modules/$(CURRENT)/build
 PWD = $(shell pwd)
 
 
-TARGET = hello
+TARGET = mydummydriver
 obj-m := $(TARGET).o
 
 
