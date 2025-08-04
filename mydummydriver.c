@@ -158,5 +158,4 @@ module_init(dummy_init);
 module_exit(dummy_exit);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Nikita Kokorin");
 MODULE_DESCRIPTION("Simple dummy character device driver");
